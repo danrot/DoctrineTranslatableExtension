@@ -25,10 +25,11 @@ class TranslatableTest extends AbstractDatabaseTestCase
                     'created' => '2017-03-31 00:00:00'
                 ],
             ],
-            'Page_translations' => [
+            'Page_translation' => [
                 [
                     'id' => 1,
                     'page_id' => 1,
+                    'locale' => 'en',
                     'title' => 'English page',
                     'description' => 'This is the description for the English page'
                 ],

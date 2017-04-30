@@ -4,10 +4,8 @@ namespace Danrot\Doctrine\TranslatableExtension\Tests\Functional;
 
 use Danrot\Doctrine\TranslatableExtension\Listener\TranslatableListener;
 use Danrot\Doctrine\TranslatableExtension\Tests\Functional\Fixtures\Page;
-use Danrot\Doctrine\TranslatableExtension\Mapping\Driver\AnnotationDriver as TranslatableAnnotationDriver;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\EventManager;
-use Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -68,13 +66,10 @@ abstract class AbstractDatabaseTestCase extends TestCase
 
             if (null === self::$configuration) {
                 $annotationReader = new AnnotationReader();
-                $driverChain = new MappingDriverChain();
-                $driverChain->addDriver(new AnnotationDriver($annotationReader), 'Danrot');
-                $driverChain->addDriver(new TranslatableAnnotationDriver($annotationReader), 'Danrot');
                 self::$configuration = new Configuration();
                 self::$configuration->setProxyDir(sys_get_temp_dir());
                 self::$configuration->setProxyNamespace('Proxy');
-                self::$configuration->setMetadataDriverImpl($driverChain);
+                self::$configuration->setMetadataDriverImpl(new AnnotationDriver($annotationReader));
 
                 static::$translatableListener = new TranslatableListener($annotationReader);
                 self::$eventManager = new EventManager();
@@ -100,7 +95,8 @@ abstract class AbstractDatabaseTestCase extends TestCase
     final public function getDataSet()
     {
         return new ArrayDataSet([
-            'Page' => []
+            'Page' => [],
+            'Page_translation' => [],
         ]);
     }
 }
