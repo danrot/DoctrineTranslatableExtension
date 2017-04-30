@@ -1,0 +1,21 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in(__DIR__);
+
+return PhpCsFixer\Config::create()
+    ->setRules(array(
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'doctrine_annotation_braces' => true,
+        'doctrine_annotation_indentation' => true,
+        'doctrine_annotation_spaces' => true,
+        'general_phpdoc_annotation_remove' => ['annotations' => ['author']],
+        'heredoc_to_nowdoc' => true,
+        'ordered_imports' => true,
+        'phpdoc_align' => false,
+        'phpdoc_order' => true,
+    ))
+    ->setFinder($finder)
+    ->setRiskyAllowed(true);
